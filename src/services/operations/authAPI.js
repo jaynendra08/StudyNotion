@@ -11,7 +11,7 @@ const {
   SIGNUP_API,
   LOGIN_API,
   RESETPASSTOKEN_API,
-  RESETPASSWORD_API,
+  resetPassword_API,
 } = endpoints
 
 export function sendOtp(email, navigate) {
@@ -159,7 +159,7 @@ export function resetPassword(password, confirmPassword, token) {
   return async(dispatch) => {
     dispatch(setLoading(true));
     try{
-      const response = await apiConnector("POST", RESETPASSWORD_API, {password, confirmPassword, token});
+      const response = await apiConnector("POST", resetPassword_API, {password, confirmPassword, token});
 
       console.log("RESET Password RESPONSE ... ", response);
 
