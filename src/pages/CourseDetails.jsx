@@ -49,7 +49,7 @@ function CourseDetails() {
   // Calculating Avg Review count
   const [avgReviewCount, setAvgReviewCount] = useState(0)
   useEffect(() => {
-    const count = GetAvgRating(response?.data?.courseDetails.ratingAndReviews)
+    const count = GetAvgRating(response?.data?.courseDetails.RatingandReviews)
     setAvgReviewCount(count)
   }, [response])
   // console.log("avgReviewCount: ", avgReviewCount)
@@ -95,7 +95,7 @@ function CourseDetails() {
     price,
     whatYouWillLearn,
     courseContent,
-    ratingAndReviews,
+    RatingandReviews,
     instructor,
     studentsEnrolled,
     createdAt,
@@ -151,7 +151,7 @@ function CourseDetails() {
               <div className="text-md flex flex-wrap items-center gap-2">
                 <span className="text-yellow-25">{avgReviewCount}</span>
                 <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
-                <span>{`(${ratingAndReviews.length} reviews)`}</span>
+                <span>{`(${RatingandReviews.length} reviews)`}</span>
                 <span>{`${studentsEnrolled.length} students enrolled`}</span>
               </div>
               <div>

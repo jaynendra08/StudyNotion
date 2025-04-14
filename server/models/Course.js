@@ -18,10 +18,10 @@ const coursesSchema = new mongoose.Schema({
 			ref: "Section",
 		},
 	],
-	ratingAndReviews: [
+	RatingandReviews: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "RatingAndReview",
+			ref: "RatingandReview",
 		},
 	],
 	price: {

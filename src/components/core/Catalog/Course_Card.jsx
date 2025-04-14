@@ -8,11 +8,11 @@ import GetAvgRating from "../../../utils/avgRating"
 import RatingStars from "../../Common/RatingStars"
 
 function Course_Card({ course, Height }) {
-  // const avgReviewCount = GetAvgRating(course.ratingAndReviews)
-  // console.log(course.ratingAndReviews)
+  // const avgReviewCount = GetAvgRating(course.RatingandReviews)
+  // console.log(course.RatingandReviews)
   const [avgReviewCount, setAvgReviewCount] = useState(0)
   useEffect(() => {
-    const count = GetAvgRating(course.ratingAndReviews)
+    const count = GetAvgRating(course.RatingandReviews)
     setAvgReviewCount(count)
   }, [course])
   // console.log("count............", avgReviewCount)
@@ -46,7 +46,7 @@ function Course_Card({ course, Height }) {
               /> */}
               <RatingStars Review_Count={avgReviewCount} />
               <span className="text-richblack-400">
-                {course?.ratingAndReviews?.length} Ratings
+                {course?.RatingandReviews?.length} Ratings
               </span>
             </div>
             <p className="text-xl text-richblack-5">Rs. {course?.price}</p>

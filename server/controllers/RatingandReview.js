@@ -1,4 +1,4 @@
-const RatingAndReview = require("../models/RatingandReview")
+const RatingandReview = require("../models/RatingandReview")
 const Course = require("../models/Course")
 const mongoose = require("mongoose")
 
@@ -23,7 +23,7 @@ exports.createRating = async (req, res) => {
     }
 
     // Check if the user has already reviewed the course
-    const alreadyReviewed = await RatingAndReview.findOne({
+    const alreadyReviewed = await RatingandReview.findOne({
       user: userId,
       course: courseId,
     })
@@ -36,7 +36,7 @@ exports.createRating = async (req, res) => {
     }
 
     // Create a new rating and review
-    const ratingReview = await RatingAndReview.create({
+    const ratingReview = await RatingandReview.create({
       rating,
       review,
       course: courseId,
@@ -46,7 +46,7 @@ exports.createRating = async (req, res) => {
     // Add the rating and review to the course
     await Course.findByIdAndUpdate(courseId, {
       $push: {
-        ratingAndReviews: ratingReview,
+        RatingandReviews: ratingReview,
       },
     })
     await courseDetails.save()
@@ -72,7 +72,7 @@ exports.getAverageRating = async (req, res) => {
     const courseId = req.body.courseId
 
     // Calculate the average rating using the MongoDB aggregation pipeline
-    const result = await RatingAndReview.aggregate([
+    const result = await RatingandReview.aggregate([
       {
         $match: {
           course: new mongoose.Types.ObjectId(courseId), // Convert courseId to ObjectId
@@ -108,7 +108,7 @@ exports.getAverageRating = async (req, res) => {
 // Get all rating and reviews
 exports.getAllRatingReview = async (req, res) => {
   try {
-    const allReviews = await RatingAndReview.find({})
+    const allReviews = await RatingandReview.find({})
       .sort({ rating: "desc" })
       .populate({
         path: "user",
