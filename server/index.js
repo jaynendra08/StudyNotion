@@ -27,8 +27,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "*",
+		origin: process.env.NODE_ENV === "production" 
+			? ["https://study-notion-frontend-gray-sigma.vercel.app", "https://studynotion-frontend.vercel.app"]
+			: ["http://localhost:3000"],
 		credentials: true,
+		methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+		allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
 	})
 );
 app.use(
@@ -48,17 +52,54 @@ app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/reach", contactUsRoute);
 
-// Testing the server
+// Health check endpoint for Render
 app.get("/", (req, res) => {
-	return res.json({
+	return res.status(200).json({
 		success: true,
 		message: "Your server is up and running ...",
+		timestamp: new Date().toISOString(),
+		environment: process.env.NODE_ENV || "development"
+	});
+});
+
+// Additional health check endpoint
+app.get("/health", (req, res) => {
+	return res.status(200).json({
+		success: true,
+		message: "Server is healthy",
+		timestamp: new Date().toISOString(),
+		uptime: process.uptime()
+	});
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).json({
+		success: false,
+		message: "Something went wrong!",
+		error: process.env.NODE_ENV === "development" ? err.message : "Internal server error"
+	});
+});
+
+// 404 handler
+app.use("*", (req, res) => {
+	res.status(404).json({
+		success: false,
+		message: "Route not found"
 	});
 });
 
 // Listening to the server
 app.listen(PORT, () => {
 	console.log(`App is listening at ${PORT}`);
+	console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+	console.log('SIGTERM received, shutting down gracefully');
+	process.exit(0);
 });
 
 // End of code.
